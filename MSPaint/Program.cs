@@ -18,8 +18,11 @@ namespace MSPaint
             (new [] { "10", "WIN10", "Windows 10" }, OSVersion.Win10)
         };
 
-        internal static void RunMSPaint(OSVersion version, string path = "") =>
-            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + $@"\binaries\{VersionMap.First(entity => entity.version == version).aliases[0]}\mspaint.exe", path);
+        internal static void RunMSPaint(OSVersion version, string path = "") => Process.Start(new ProcessStartInfo() {
+            WorkingDirectory = Environment.CurrentDirectory,
+            FileName = $@"{Environment.GetFolderPath(Environment.SpecialFolder.System)}\binaries\{VersionMap.First(entity => entity.version == version).aliases[0]}\mspaint.exe",
+            Arguments = path,
+        });
 
         internal static OSVersion FindVersion(string input) => VersionMap.First(entity =>
             entity.aliases.Any(alias => string.Equals(alias.Replace(" ", ""), input.Replace(" ", ""), StringComparison.OrdinalIgnoreCase))).version;
@@ -46,6 +49,8 @@ namespace MSPaint
                     catch {
                         RunMSPaint((OSVersion)Properties.Settings.Default.Version);
                     }
+                } else {
+                    RunMSPaint((OSVersion)Properties.Settings.Default.Version, path);
                 }
             }
             else if (args.Length == 2) {
