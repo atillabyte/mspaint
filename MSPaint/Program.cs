@@ -19,8 +19,8 @@ namespace MSPaint
         };
 
         internal static void RunMSPaint(OSVersion version, string path = "") => Process.Start(new ProcessStartInfo() {
-            WorkingDirectory = Environment.CurrentDirectory,
-            FileName = $@"{Environment.GetFolderPath(Environment.SpecialFolder.System)}\binaries\{VersionMap.First(entity => entity.version == version).aliases[0]}\mspaint.exe",
+            WorkingDirectory = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\MSPaint\binaries\{VersionMap.First(entity => entity.version == version).aliases[0]}",
+            FileName = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\MSPaint\binaries\{VersionMap.First(entity => entity.version == version).aliases[0]}\mspaint.exe",
             Arguments = path,
         });
 
